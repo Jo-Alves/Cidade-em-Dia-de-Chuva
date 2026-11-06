@@ -20,7 +20,7 @@ public class Trecho {
     private Bairro bairro;
 
     @Column(name = "LOGRADOURO")
-    private String longradouro;
+    private String logradouro;
 
     @Column(name = "TIPO_CALCADA")
     private String tipoCalcada;

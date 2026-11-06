@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.type.NumericBooleanConverter;
 
 @Entity
 @Table(name = "GS004_BAIRRO")
@@ -23,5 +24,6 @@ public class Bairro {
     private String zona;
 
     @Column(name = "POSSUI_PISCINAO")
-    private int possuiPiscinao;
+    @Convert(converter = NumericBooleanConverter.class)
+    private Boolean possuiPiscinao;
 }
