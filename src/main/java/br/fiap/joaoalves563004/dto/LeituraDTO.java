@@ -1,4 +1,4 @@
-package br.fiap.joaoalves563004.web.dto;
+package br.fiap.joaoalves563004.dto;
 
 import java.time.LocalDateTime;
 

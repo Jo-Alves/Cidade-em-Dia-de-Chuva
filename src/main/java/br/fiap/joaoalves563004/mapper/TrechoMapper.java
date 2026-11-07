@@ -2,7 +2,7 @@ package br.fiap.joaoalves563004.mapper;
 
 import br.fiap.joaoalves563004.domain.Bairro;
 import br.fiap.joaoalves563004.domain.Trecho;
-import br.fiap.joaoalves563004.web.dto.TrechoDTO;
+import br.fiap.joaoalves563004.dto.TrechoDTO;
 import org.springframework.stereotype.Component;
 
 @Component
