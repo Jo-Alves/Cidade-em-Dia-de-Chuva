@@ -49,4 +49,25 @@ public class PainelService {
 
         return listaPainelItemDTO;
     }
+
+    public List<Long> contaStatus(List<PainelItemDTO> listaPainelItemDTO){
+        Long totalNorm = listaPainelItemDTO.stream()
+                .filter(s -> "NORMAL".equalsIgnoreCase(s.ultimoStatus()))
+                .count();
+
+        Long totalAten = listaPainelItemDTO.stream()
+                .filter(s -> "ATENCAO".equalsIgnoreCase(s.ultimoStatus()))
+                .count();
+
+        Long totalAler = listaPainelItemDTO.stream()
+                .filter(s -> "ALERTA".equalsIgnoreCase(s.ultimoStatus()))
+                .count();
+
+        List<Long> totalStatus = new ArrayList<>();
+        totalStatus.add(0, totalNorm);
+        totalStatus.add(1, totalAten);
+        totalStatus.add(2, totalAler);
+
+        return totalStatus;
+    }
 }
