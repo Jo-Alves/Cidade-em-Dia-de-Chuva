@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -41,15 +42,31 @@ public class BairroController {
     }
 
     @PostMapping("/salvar")
-    public String salvar(BairroDTO dto){
-        BairroDTO aux = bairroService.salvar(dto);
-        return "redirect:/bairros";
+    public String salvar(BairroDTO dto,Model model, RedirectAttributes atribu){
+        String mensagem;
+        if (dto.id()==null){
+            mensagem = "Bairro cadastrado com sucesso.";
+        } else {
+            mensagem = "Bairro alterado com sucesso.";
+        }
+
+        try {
+            BairroDTO aux = bairroService.salvar(dto);
+            atribu.addFlashAttribute("mensagem", mensagem);
+            return "redirect:/bairros";
+        } catch (IllegalArgumentException e){
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("bairroDTO", dto);
+            return "bairros/form";
+        }
+
     }
 
     @PostMapping("/{id}/excluir")
     public String excluir(@PathVariable Long id, Model model){
         try {
         bairroService.excluir(id);
+        model.addAttribute("sucesso", "Bairro excluído com sucesso.");
         } catch (IllegalArgumentException e){
             model.addAttribute("erro", e.getMessage());
         }

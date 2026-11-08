@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cidade em Dia de Chuva</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1>Cidade em Dia de Chuva</h1>
+    <p>Sistema de cadastro e monitoramento de alagamentos.</p>
+</header>
+<main>
+    <h2>Menu principal</h2>
+    <ul class="menu-principal">
+        <li><a th:href="@{/bairros}">Gerenciar bairros</a></li>
+        <li><a th:href="@{/trechos}">Gerenciar trechos de calçada</a></li>
+        <li><a th:href="@{/leituras}">Gerenciar leituras dos sensores</a></li>
+    </ul>
+</main>
+
+<script th:inline="javascript">
+    const mensagem = /*[[${mensagem}]]*/ null;
+    if (mensagem) {
+        alert(mensagem);
+    }
+</script>
+</body>
+</html>

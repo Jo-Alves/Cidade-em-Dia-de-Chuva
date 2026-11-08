@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bairros cadastrados</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1>Bairros cadastrados</h1>
+    <nav>
+        <a th:href="@{/}">Início</a> |
+        <a th:href="@{/trechos}">Trechos</a> |
+        <a th:href="@{/leituras}">Leituras</a>
+    </nav>
+</header>
+<main>
+<p><a class="link-acao" th:href="@{/bairros/novo}">Cadastrar novo bairro</a></p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Zona</th>
+            <th>Possui piscinão?</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="bairro : ${bairros}">
+            <td th:text="${bairro.nome}">Nome do bairro</td>
+            <td th:text="${bairro.zona}">Zona</td>
+            <td>
+                <span th:if="${bairro.possuiPiscinao == null}">Não informado</span>
+                <span th:if="${bairro.possuiPiscinao == true}">Sim</span>
+                <span th:if="${bairro.possuiPiscinao == false}">Não</span>
+            </td>
+            <td class="acoes">
+                <a th:href="@{/bairros/{id}/editar(id=${bairro.id})}">Editar</a>
+                <a th:href="@{/bairros/{id}/painel(id=${bairro.id})}">Painel</a>
+                <form th:action="@{/bairros/{id}/excluir(id=${bairro.id})}" method="post" class="form-inline" onsubmit="return confirm('Deseja excluir este bairro?')">
+                    <button type="submit" class="botao-excluir">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(bairros)}">
+            <td colspan="4">Nenhum bairro cadastrado.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<script th:inline="javascript">
+    const mensagem = /*[[${mensagem}]]*/ null;
+    if (mensagem) {
+        alert(mensagem);
+    }
+</script>
+</body>
+</html>

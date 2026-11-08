@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de leitura</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1 th:text="${leituraDTO.id == null ? 'Cadastro de leitura' : 'Alteração de leitura'}">Cadastro de leitura</h1>
+    <nav><a th:href="@{/}">Início</a> | <a th:href="@{/leituras}">Voltar para leituras</a></nav>
+</header>
+<main>
+<form th:action="@{/leituras/salvar}" th:object="${leituraDTO}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="campo">
+            <label for="trechoId">Trecho:</label>
+            <select id="trechoId" th:field="*{trechoId}" required>
+                <option value="">Selecione um trecho</option>
+                <option th:each="trecho : ${trechos}"
+                        th:value="${trecho.id}"
+                        th:text="${trecho.logradouro + ' (' + trecho.bairroNome + ')'}">
+                </option>
+            </select>
+            <small>Selecione o trecho no qual a leitura foi realizada.</small>
+        </div>
+
+        <div class="campo">
+            <label for="dataHora">Data e hora:</label>
+            <input id="dataHora" name="dataHora" type="datetime-local" step="60" required
+                   th:value="${leituraDTO.dataHora != null ? #temporals.format(leituraDTO.dataHora, 'yyyy-MM-dd''T''HH:mm') : ''}">
+            <small>Obrigatória e não pode estar no futuro. A regra também é verificada no back-end.</small>
+        </div>
+
+        <div class="campo">
+            <label for="laminaCm">Lâmina de água (cm):</label>
+            <input id="laminaCm" type="number" th:field="*{laminaCm}" min="0" max="300" step="1" required>
+            <small>Obrigatória. Valor inteiro entre 0 e 300 centímetros.</small>
+        </div>
+
+        <p>O status será calculado automaticamente pelo sistema após salvar. Não existe campo de status neste formulário.</p>
+        <button type="submit">Salvar</button>
+        <a th:href="@{/leituras}">Cancelar</a>
+    </form>
+</main>
+
+<script th:inline="javascript">
+    const mensagem = /*[[${mensagem}]]*/ null;
+    if (mensagem) {
+        alert(mensagem);
+    }
+</script>
+</body>
+</html>

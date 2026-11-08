@@ -2,6 +2,7 @@ package br.fiap.joaoalves563004.service;
 
 import br.fiap.joaoalves563004.domain.Bairro;
 import br.fiap.joaoalves563004.domain.Trecho;
+import br.fiap.joaoalves563004.dto.BairroDTO;
 import br.fiap.joaoalves563004.mapper.TrechoMapper;
 import br.fiap.joaoalves563004.repository.LeituraRepository;
 import br.fiap.joaoalves563004.repository.TrechoRepository;
@@ -33,6 +34,7 @@ public class TrechoService {
 
     @Transactional
     public TrechoDTO salvar (TrechoDTO dto){
+        validarDados(dto);
         Bairro bairro = bairroService.buscarEntidade(dto.bairroId());
         Trecho trecho = mapper.toEntity(dto, bairro);
         return mapper.toDTO(repo.save(trecho));
@@ -55,5 +57,27 @@ public class TrechoService {
 
     public  Trecho buscarEntidade(Long id){
         return repo.findById(id).orElseThrow();
+    }
+
+    private void validarDados(TrechoDTO dto) {
+        if (dto.logradouro() == null || dto.logradouro().isBlank()) {
+            throw new IllegalArgumentException("Logradouro é obrigatório.");
+        } else if (dto.logradouro().length() > 120) {
+            throw new IllegalArgumentException("Logradouro deve ter no máximo 120 caracteres.");
+        }
+
+        List<String> calcada =List.of("Regular", "Irregular", "Escadaria", "Sem iluminação");
+        if (dto.tipoCalcada() == null || dto.tipoCalcada().isBlank()) {
+            throw new IllegalArgumentException("Tipo da calcada é obrigatório.");
+        } else if (!calcada.contains(dto.tipoCalcada())) {
+            throw new IllegalArgumentException("Tipo da calcada inválida.");
+        }
+
+        if (dto.altitude() == null) {
+            throw new IllegalArgumentException("Altitude é obrigatório.");
+        } else if ( dto.altitude() < 0 || dto.altitude() > 2000) {
+            throw new IllegalArgumentException("Altitude deve estar entre 0 e 2000 metros.");
+        }
+
     }
 }

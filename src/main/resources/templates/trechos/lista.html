@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trechos cadastrados</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1>Trechos cadastrados</h1>
+    <nav>
+        <a th:href="@{/}">Início</a> |
+        <a th:href="@{/bairros}">Bairros</a> |
+        <a th:href="@{/leituras}">Leituras</a>
+    </nav>
+</header>
+<main>
+<p><a class="link-acao" th:href="@{/trechos/novo}">Cadastrar novo trecho</a></p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Logradouro</th>
+            <th>Bairro</th>
+            <th>Tipo de calçada</th>
+            <th>Altitude (m)</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="trecho : ${trechos}">
+            <td th:text="${trecho.logradouro}">Logradouro</td>
+            <td th:text="${trecho.bairroNome}">Bairro</td>
+            <td th:text="${trecho.tipoCalcada}">Tipo</td>
+            <td th:text="${trecho.altitude}">0</td>
+            <td class="acoes">
+                <a th:href="@{/trechos/{id}/editar(id=${trecho.id})}">Editar</a>
+                <form th:action="@{/trechos/{id}/excluir(id=${trecho.id})}" method="post" class="form-inline" onsubmit="return confirm('Deseja excluir este trecho e suas leituras?')">
+                    <button type="submit" class="botao-excluir">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(trechos)}">
+            <td colspan="5">Nenhum trecho cadastrado.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<script th:inline="javascript">
+    const mensagem = /*[[${mensagem}]]*/ null;
+    if (mensagem) {
+        alert(mensagem);
+    }
+</script>
+</body>
+</html>

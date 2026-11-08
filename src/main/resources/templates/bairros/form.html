@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de bairro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1 th:text="${bairroDTO.id == null ? 'Cadastro de bairro' : 'Alteração de bairro'}">Cadastro de bairro</h1>
+    <nav><a th:href="@{/}">Início</a> | <a th:href="@{/bairros}">Voltar para bairros</a></nav>
+</header>
+<main>
+<form th:action="@{/bairros/salvar}" th:object="${bairroDTO}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="campo">
+            <label for="nome">Nome do bairro:</label>
+            <input id="nome" type="text" th:field="*{nome}" maxlength="80" required>
+            <small>Obrigatório. Até 80 caracteres; não deixe o campo apenas com espaços.</small>
+        </div>
+
+        <div class="campo">
+            <label for="zona">Zona:</label>
+            <select id="zona" th:field="*{zona}" required>
+                <option value="">Selecione uma zona</option>
+                <option value="Centro">Centro</option>
+                <option value="Norte">Norte</option>
+                <option value="Sul">Sul</option>
+                <option value="Leste">Leste</option>
+                <option value="Oeste">Oeste</option>
+            </select>
+        </div>
+
+        <div class="campo campo-checkbox">
+            <label>
+                <input type="checkbox" th:field="*{possuiPiscinao}">
+                Possui piscinão
+            </label>
+            <small>Campo opcional.</small>
+        </div>
+
+        <button type="submit">Salvar</button>
+        <a th:href="@{/bairros}">Cancelar</a>
+    </form>
+</main>
+
+<script th:inline="javascript">
+    const mensagem = /*[[${mensagem}]]*/ null;
+    if (mensagem) {
+        alert(mensagem);
+    }
+</script>
+</body>
+</html>

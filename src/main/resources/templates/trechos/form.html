@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de trecho</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1 th:text="${trechoDTO.id == null ? 'Cadastro de trecho' : 'Alteração de trecho'}">Cadastro de trecho</h1>
+    <nav><a th:href="@{/}">Início</a> | <a th:href="@{/trechos}">Voltar para trechos</a></nav>
+</header>
+<main>
+<form th:action="@{/trechos/salvar}" th:object="${trechoDTO}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="campo">
+            <label for="logradouro">Logradouro:</label>
+            <input id="logradouro" type="text" th:field="*{logradouro}" maxlength="120" required>
+            <small>Obrigatório. Até 120 caracteres; não deixe o campo apenas com espaços.</small>
+        </div>
+
+        <div class="campo">
+            <label for="bairroId">Bairro:</label>
+            <select id="bairroId" th:field="*{bairroId}" required>
+                <option value="">Selecione um bairro</option>
+                <option th:each="bairro : ${bairros}"
+                        th:value="${bairro.id}"
+                        th:text="${bairro.nome}">
+                </option>
+            </select>
+            <small>Selecione o bairro ao qual o trecho pertence.</small>
+        </div>
+
+        <div class="campo">
+            <label for="tipoCalcada">Tipo de calçada:</label>
+            <select id="tipoCalcada" th:field="*{tipoCalcada}" required>
+                <option value="">Selecione um tipo</option>
+                <option value="Regular">Regular</option>
+                <option value="Irregular">Irregular</option>
+                <option value="Escadaria">Escadaria</option>
+                <option value="Sem iluminação">Sem iluminação</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="altitude">Altitude (metros):</label>
+            <input id="altitude" type="number" th:field="*{altitude}" min="0" max="2000" step="1" required>
+            <small>Obrigatória. Valor inteiro entre 0 e 2000 metros.</small>
+        </div>
+
+        <button type="submit">Salvar</button>
+        <a th:href="@{/trechos}">Cancelar</a>
+    </form>
+</main>
+
+<script th:inline="javascript">
+    const mensagem = /*[[${mensagem}]]*/ null;
+    if (mensagem) {
+        alert(mensagem);
+    }
+</script>
+</body>
+</html>

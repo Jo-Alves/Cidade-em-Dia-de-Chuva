@@ -1,6 +1,5 @@
 package br.fiap.joaoalves563004.repository;
 
-import br.fiap.joaoalves563004.domain.Bairro;
 import br.fiap.joaoalves563004.domain.Leitura;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do bairro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1>Painel do bairro: <span th:text="${nomeBairro}">Nome do bairro</span></h1>
+    <nav><a th:href="@{/}">Início</a> | <a th:href="@{/bairros}">Voltar para bairros</a></nav>
+</header>
+<main>
+    <h2>Quantidade de trechos por status</h2>
+    <ul>
+        <li>Normal: <strong th:text="${qtdStatusNorm}">0</strong></li>
+        <li>Atenção: <strong th:text="${qtdStatusAten}">0</strong></li>
+        <li>Alerta: <strong th:text="${qtdStatusAler}">0</strong></li>
+    </ul>
+
+    <h2>Situação dos trechos</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Logradouro</th>
+            <th>Tipo de calçada</th>
+            <th>Altitude (m)</th>
+            <th>Última lâmina (cm)</th>
+            <th>Último status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${listaPainel}">
+            <td th:text="${item.logradouro}">Logradouro</td>
+            <td th:text="${item.tipoCalcada}">Tipo</td>
+            <td th:text="${item.altitude}">0</td>
+            <td>
+                <span th:if="${item.ultimaLamina != null}" th:text="${item.ultimaLamina}">0</span>
+                <span th:if="${item.ultimaLamina == null}">Sem leitura</span>
+            </td>
+            <td>
+                <span th:if="${item.ultimoStatus != null}" th:text="${item.ultimoStatus}">NORMAL</span>
+                <span th:if="${item.ultimoStatus == null}">Sem leitura</span>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(listaPainel)}">
+            <td colspan="5">Este bairro ainda não possui trechos cadastrados.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<script th:inline="javascript">
+    const mensagem = /*[[${mensagem}]]*/ null;
+    if (mensagem) {
+        alert(mensagem);
+    }
+</script>
+</body>
+</html>

@@ -1,11 +1,13 @@
 package br.fiap.joaoalves563004.dto;
 
+import jakarta.validation.constraints.*;
+
 public record TrechoDTO(
         Long id,
-        String logradouro,
-        String tipoCalcada,
-        Integer altitude,
-        Long bairroId,
+        @NotBlank @Size(max = 120) String logradouro,
+        @NotBlank @Size(max = 20) String tipoCalcada,
+        @NotNull @Min(0) @Max(2000) Integer altitude,
+        @NotNull Long bairroId,
         String bairroNome
 ) {
 }

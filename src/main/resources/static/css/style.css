@@ -1,0 +1,54 @@
+/* Estilo simples para a primeira versão de testes do Cidade em Dia de Chuva. */
+body {
+    margin: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222;
+    line-height: 1.45;
+}
+
+header, main {
+    max-width: 1100px;
+    margin: 0 auto 24px;
+}
+
+header {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 12px;
+}
+
+nav, nav a { margin-right: 8px; }
+main { padding-top: 8px; }
+form:not(.form-inline) { max-width: 560px; }
+.campo { margin-bottom: 14px; }
+.campo label { display: block; margin-bottom: 5px; font-weight: bold; }
+.campo small { display: block; margin-top: 4px; color: #555; }
+
+input[type="text"], input[type="number"], input[type="datetime-local"], select {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 560px;
+    padding: 7px;
+}
+
+.campo-checkbox label { display: inline; font-weight: normal; }
+button { padding: 7px 12px; cursor: pointer; }
+table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+th, td { border: 1px solid #bbb; padding: 8px; text-align: left; }
+th { background: #eee; }
+.acoes { white-space: nowrap; }
+.form-inline { display: inline; margin: 0; }
+.link-acao { display: inline-block; margin: 4px 0; }
+
+/* Uma única classe visual para mensagens de sucesso ou erro. */
+.mensagem {
+    margin: 12px 0;
+    padding: 10px 12px;
+    border: 1px solid #9bb7d4;
+    border-radius: 4px;
+    background: #f0f6fc;
+    color: #23384d;
+    font-weight: bold;
+}
+
+.botao-excluir { color: #9b1c1c; }
+.menu-principal li { margin: 10px 0; }

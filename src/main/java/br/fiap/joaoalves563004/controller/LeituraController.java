@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -49,9 +50,24 @@ public class LeituraController {
     }
 
     @PostMapping("/salvar")
-    public String salvar(LeituraDTO dto){
-        LeituraDTO aux = leituraService.salvar(dto);
-        return "redirect:/leituras";
+    public String salvar(LeituraDTO dto, Model model, RedirectAttributes atribu){
+        String mensagem;
+        if (dto.id()==null){
+            mensagem = "Leitura cadastrada com sucesso.";
+        } else {
+            mensagem = "Leitura alterada com sucesso.";
+        }
+
+        try {
+            LeituraDTO aux = leituraService.salvar(dto);
+            atribu.addFlashAttribute("mensagem", mensagem);
+            return "redirect:/leituras";
+        } catch (IllegalArgumentException e){
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("LeituraDTO", dto);
+            return "leituras/form";
+        }
+
     }
 
     @PostMapping("/{id}/excluir")
@@ -59,6 +75,7 @@ public class LeituraController {
 
         try {
             leituraService.excluir(id);
+            model.addAttribute("sucesso", "Leitura excluída com sucesso.");
         } catch (IllegalArgumentException e){
             model.addAttribute("erro", e.getMessage());
         }
