@@ -63,12 +63,12 @@ public class BairroController {
     }
 
     @PostMapping("/{id}/excluir")
-    public String excluir(@PathVariable Long id, Model model){
+    public String excluir(@PathVariable Long id, RedirectAttributes atribu){
         try {
         bairroService.excluir(id);
-        model.addAttribute("sucesso", "Bairro excluído com sucesso.");
+        atribu.addFlashAttribute("mensagem", "Bairro excluído com sucesso.");
         } catch (IllegalArgumentException e){
-            model.addAttribute("erro", e.getMessage());
+            atribu.addFlashAttribute("mensagem", e.getMessage());
         }
         return "redirect:/bairros";
     }

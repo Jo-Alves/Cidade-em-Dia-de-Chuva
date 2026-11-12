@@ -66,20 +66,20 @@ public class LeituraController {
             List<TrechoDTO> trechoDTO = trechoService.listar();
             model.addAttribute("trechos", trechoDTO);
             model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("LeituraDTO", dto);
+            model.addAttribute("leituraDTO", dto);
             return "leituras/form";
         }
 
     }
 
     @PostMapping("/{id}/excluir")
-    public String excluir(@PathVariable Long id, Model model){
+    public String excluir(@PathVariable Long id, Model model, RedirectAttributes atribu){
 
         try {
             leituraService.excluir(id);
-            model.addAttribute("sucesso", "Leitura excluída com sucesso.");
+            atribu.addFlashAttribute("mensagem", "Leitura excluída com sucesso.");
         } catch (IllegalArgumentException e){
-            model.addAttribute("erro", e.getMessage());
+            atribu.addFlashAttribute("mensagem", e.getMessage());
         }
 
         return "redirect:/leituras";

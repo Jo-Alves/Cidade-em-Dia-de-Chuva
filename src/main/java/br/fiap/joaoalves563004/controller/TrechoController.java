@@ -64,19 +64,19 @@ public class TrechoController {
             List<BairroDTO> bairroDTO = bairroService.listar();
             model.addAttribute("bairros", bairroDTO);
             model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("TrechoDTO", dto);
+            model.addAttribute("trechoDTO", dto);
             return "trechos/form";
         }
 
     }
 
     @PostMapping("/{id}/excluir")
-    public String excluir(@PathVariable Long id, Model model){
+    public String excluir(@PathVariable Long id, RedirectAttributes atribu){
         try {
             trechoService.excluir(id);
-            model.addAttribute("sucesso", "Trecho excluído com sucesso.");
+            atribu.addFlashAttribute("mensagem","Trecho excluído com sucesso.");
         } catch (IllegalArgumentException e){
-            model.addAttribute("erro", e.getMessage());
+            atribu.addFlashAttribute("mensagem",e.getMessage());
         }
         return "redirect:/trechos";
     }
