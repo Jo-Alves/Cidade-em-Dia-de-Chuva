@@ -63,6 +63,8 @@ public class LeituraController {
             atribu.addFlashAttribute("mensagem", mensagem);
             return "redirect:/leituras";
         } catch (IllegalArgumentException e){
+            List<TrechoDTO> trechoDTO = trechoService.listar();
+            model.addAttribute("trechos", trechoDTO);
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("LeituraDTO", dto);
             return "leituras/form";

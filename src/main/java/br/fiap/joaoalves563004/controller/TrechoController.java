@@ -61,6 +61,8 @@ public class TrechoController {
             atribu.addFlashAttribute("mensagem", mensagem);
             return "redirect:/trechos";
         } catch (IllegalArgumentException e){
+            List<BairroDTO> bairroDTO = bairroService.listar();
+            model.addAttribute("bairros", bairroDTO);
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("TrechoDTO", dto);
             return "trechos/form";
