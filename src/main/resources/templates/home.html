@@ -1,30 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cidade em Dia de Chuva</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Início | Cidade em Dia</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<header>
-    <h1>Cidade em Dia de Chuva</h1>
-    <p>Sistema de cadastro e monitoramento de alagamentos.</p>
-</header>
-<main>
-    <h2>Menu principal</h2>
-    <ul class="menu-principal">
-        <li><a th:href="@{/bairros}">Gerenciar bairros</a></li>
-        <li><a th:href="@{/trechos}">Gerenciar trechos de calçada</a></li>
-        <li><a th:href="@{/leituras}">Gerenciar leituras dos sensores</a></li>
-    </ul>
-</main>
-
+<div class="app-shell">
+<aside class="sidebar">
+  <a class="brand" th:href="@{/}">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.1 20.2a5.3 5.3 0 0 1 .6-10.5 7.3 7.3 0 0 1 13.8 2.1 4.3 4.3 0 0 1-.2 8.5H9.1Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12 23.3-1.1 2.1m6-2.1-1.1 2.1m6-2.1-1.1 2.1" stroke="#75D2C9" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </span>
+    <span><span class="brand-name">Cidade em Dia</span><span class="brand-subtitle">Monitoramento urbano</span></span>
+  </a>
+  <div class="nav-caption">Menu principal</div>
+  <nav class="side-nav" aria-label="Navegação principal">
+    <a class="active" th:href="@{/}"><span class="nav-icon">⌂</span>Início</a>
+    <a class="" th:href="@{/bairros}"><span class="nav-icon">▦</span>Bairros</a>
+    <a class="" th:href="@{/trechos}"><span class="nav-icon">⌁</span>Trechos</a>
+    <a class="" th:href="@{/leituras}"><span class="nav-icon">≋</span>Leituras</a>
+  </nav>
+  <div class="sidebar-bottom"><strong>Cidade em Dia de Chuva</strong>Gestão de áreas e trechos monitorados.</div>
+</aside>
+  <div class="main-area">
+    <header class="topbar">
+      <div class="breadcrumb">Cidade em Dia <span aria-hidden="true">/</span> <strong>Início</strong></div>
+      <div class="topbar-tag"><span class="online-dot"></span> Sistema de monitoramento</div>
+    </header>
+    <main class="content">
+      <section class="home-hero">
+        <p class="eyebrow" style="color:#A7DCD7">GESTÃO E MONITORAMENTO</p>
+        <h1>Informações da cidade em um só lugar.</h1>
+        <p>Cadastre bairros, organize trechos de calçadas e acompanhe as leituras dos sensores para identificar pontos que precisam de atenção em dias de chuva.</p>
+      </section>
+      <h2 class="home-label">Acessar funcionalidades</h2>
+      <section class="home-cards">
+        <a class="card home-card" th:href="@{/bairros}">
+          <div class="home-card-icon">▦</div><h2>Bairros</h2>
+          <p>Cadastre e consulte os bairros monitorados e acesse o painel de cada região.</p>
+          <span class="home-card-link">Gerenciar bairros →</span>
+        </a>
+        <a class="card home-card" th:href="@{/trechos}">
+          <div class="home-card-icon">⌁</div><h2>Trechos de calçada</h2>
+          <p>Organize os logradouros, seus bairros, tipos de calçada e altitudes.</p>
+          <span class="home-card-link">Gerenciar trechos →</span>
+        </a>
+        <a class="card home-card" th:href="@{/leituras}">
+          <div class="home-card-icon">≋</div><h2>Leituras dos sensores</h2>
+          <p>Registre o nível de água e consulte o status calculado pelo sistema.</p>
+          <span class="home-card-link">Gerenciar leituras →</span>
+        </a>
+      </section>
+      <footer class="footer">Cidade em Dia de Chuva · Monitoramento urbano</footer>
+    </main>
+  </div>
+</div>
 <script th:inline="javascript">
-    const mensagem = /*[[${mensagem}]]*/ null;
-    if (mensagem) {
-        alert(mensagem);
-    }
+  const mensagem = /*[[${mensagem}]]*/ null;
+  if (mensagem) { window.alert(mensagem); }
 </script>
 </body>
 </html>

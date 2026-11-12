@@ -1,56 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de bairro</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de bairro | Cidade em Dia</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<header>
-    <h1 th:text="${bairroDTO.id == null ? 'Cadastro de bairro' : 'Alteração de bairro'}">Cadastro de bairro</h1>
-    <nav><a th:href="@{/}">Início</a> | <a th:href="@{/bairros}">Voltar para bairros</a></nav>
-</header>
-<main>
-<form th:action="@{/bairros/salvar}" th:object="${bairroDTO}" method="post">
-        <input type="hidden" th:field="*{id}">
-
-        <div class="campo">
-            <label for="nome">Nome do bairro:</label>
-            <input id="nome" type="text" th:field="*{nome}" maxlength="80" required>
-            <small>Obrigatório. Até 80 caracteres; não deixe o campo apenas com espaços.</small>
+<div class="app-shell">
+<aside class="sidebar">
+  <a class="brand" th:href="@{/}">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.1 20.2a5.3 5.3 0 0 1 .6-10.5 7.3 7.3 0 0 1 13.8 2.1 4.3 4.3 0 0 1-.2 8.5H9.1Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12 23.3-1.1 2.1m6-2.1-1.1 2.1m6-2.1-1.1 2.1" stroke="#75D2C9" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </span>
+    <span><span class="brand-name">Cidade em Dia</span><span class="brand-subtitle">Monitoramento urbano</span></span>
+  </a>
+  <div class="nav-caption">Menu principal</div>
+  <nav class="side-nav" aria-label="Navegação principal">
+    <a class="" th:href="@{/}"><span class="nav-icon">⌂</span>Início</a>
+    <a class="active" th:href="@{/bairros}"><span class="nav-icon">▦</span>Bairros</a>
+    <a class="" th:href="@{/trechos}"><span class="nav-icon">⌁</span>Trechos</a>
+    <a class="" th:href="@{/leituras}"><span class="nav-icon">≋</span>Leituras</a>
+  </nav>
+  <div class="sidebar-bottom"><strong>Cidade em Dia de Chuva</strong>Gestão de áreas e trechos monitorados.</div>
+</aside>
+  <div class="main-area">
+    <header class="topbar">
+      <div class="breadcrumb">Cidade em Dia <span aria-hidden="true">/</span> <strong>Bairros / Formulário</strong></div>
+      <div class="topbar-tag"><span class="online-dot"></span> Sistema de monitoramento</div>
+    </header>
+    <main class="content">
+      <section class="page-heading">
+        <div><p class="eyebrow">CADASTROS / BAIRROS</p><h1 th:text="${bairroDTO.id == null ? 'Novo bairro' : 'Editar bairro'}">Novo bairro</h1><p class="page-description">Informe os dados básicos da região monitorada.</p></div>
+        <a class="btn btn-secondary" th:href="@{/bairros}">← Voltar para bairros</a>
+      </section>
+      <section class="card form-card">
+        <div class="card-header"><div><h2 class="card-title">Dados do bairro</h2><p class="card-subtitle">Os campos marcados com * são obrigatórios.</p></div><span class="pill pill-neutral">Bairro</span></div>
+        <div class="card-body">
+          <form th:action="@{/bairros/salvar}" th:object="${bairroDTO}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <div class="form-grid">
+              <div class="field full"><label for="nome">Nome do bairro <span class="required">*</span></label><input class="input" id="nome" type="text" th:field="*{nome}" maxlength="80" placeholder="Ex.: Vila Esperança" required><span class="field-help">Obrigatório. Até 80 caracteres; não deixe o campo apenas com espaços.</span></div>
+              <div class="field"><label for="zona">Zona <span class="required">*</span></label><select class="select" id="zona" th:field="*{zona}" required><option value="">Selecione uma zona</option><option value="Centro">Centro</option><option value="Norte">Norte</option><option value="Sul">Sul</option><option value="Leste">Leste</option><option value="Oeste">Oeste</option></select></div>
+              <div class="field"><label>Piscinão</label><div class="checkbox-line"><input id="possuiPiscinao" type="checkbox" th:field="*{possuiPiscinao}"><label for="possuiPiscinao">O bairro possui piscinão</label></div><span class="field-help">Campo opcional.</span></div>
+            </div>
+            <div class="form-actions"><button class="btn btn-primary" type="submit">Salvar bairro</button><a class="btn btn-secondary" th:href="@{/bairros}">Cancelar</a></div>
+          </form>
         </div>
-
-        <div class="campo">
-            <label for="zona">Zona:</label>
-            <select id="zona" th:field="*{zona}" required>
-                <option value="">Selecione uma zona</option>
-                <option value="Centro">Centro</option>
-                <option value="Norte">Norte</option>
-                <option value="Sul">Sul</option>
-                <option value="Leste">Leste</option>
-                <option value="Oeste">Oeste</option>
-            </select>
-        </div>
-
-        <div class="campo campo-checkbox">
-            <label>
-                <input type="checkbox" th:field="*{possuiPiscinao}">
-                Possui piscinão
-            </label>
-            <small>Campo opcional.</small>
-        </div>
-
-        <button type="submit">Salvar</button>
-        <a th:href="@{/bairros}">Cancelar</a>
-    </form>
-</main>
-
+      </section>
+      <footer class="footer">Cidade em Dia de Chuva · Monitoramento urbano</footer>
+    </main>
+  </div>
+</div>
 <script th:inline="javascript">
-    const mensagem = /*[[${mensagem}]]*/ null;
-    if (mensagem) {
-        alert(mensagem);
-    }
+  const mensagem = /*[[${mensagem}]]*/ null;
+  if (mensagem) { window.alert(mensagem); }
 </script>
 </body>
 </html>

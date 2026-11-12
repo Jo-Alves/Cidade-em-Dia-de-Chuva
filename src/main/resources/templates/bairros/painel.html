@@ -1,61 +1,72 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel do bairro</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do bairro | Cidade em Dia</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<header>
-    <h1>Painel do bairro: <span th:text="${nomeBairro}">Nome do bairro</span></h1>
-    <nav><a th:href="@{/}">Início</a> | <a th:href="@{/bairros}">Voltar para bairros</a></nav>
-</header>
-<main>
-    <h2>Quantidade de trechos por status</h2>
-    <ul>
-        <li>Normal: <strong th:text="${qtdStatusNorm}">0</strong></li>
-        <li>Atenção: <strong th:text="${qtdStatusAten}">0</strong></li>
-        <li>Alerta: <strong th:text="${qtdStatusAler}">0</strong></li>
-    </ul>
-
-    <h2>Situação dos trechos</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Logradouro</th>
-            <th>Tipo de calçada</th>
-            <th>Altitude (m)</th>
-            <th>Última lâmina (cm)</th>
-            <th>Último status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${listaPainel}">
-            <td th:text="${item.logradouro}">Logradouro</td>
-            <td th:text="${item.tipoCalcada}">Tipo</td>
-            <td th:text="${item.altitude}">0</td>
-            <td>
-                <span th:if="${item.ultimaLamina != null}" th:text="${item.ultimaLamina}">0</span>
-                <span th:if="${item.ultimaLamina == null}">Sem leitura</span>
-            </td>
-            <td>
-                <span th:if="${item.ultimoStatus != null}" th:text="${item.ultimoStatus}">NORMAL</span>
-                <span th:if="${item.ultimoStatus == null}">Sem leitura</span>
-            </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(listaPainel)}">
-            <td colspan="5">Este bairro ainda não possui trechos cadastrados.</td>
-        </tr>
-        </tbody>
-    </table>
-</main>
-
+<div class="app-shell">
+<aside class="sidebar">
+  <a class="brand" th:href="@{/}">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.1 20.2a5.3 5.3 0 0 1 .6-10.5 7.3 7.3 0 0 1 13.8 2.1 4.3 4.3 0 0 1-.2 8.5H9.1Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12 23.3-1.1 2.1m6-2.1-1.1 2.1m6-2.1-1.1 2.1" stroke="#75D2C9" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </span>
+    <span><span class="brand-name">Cidade em Dia</span><span class="brand-subtitle">Monitoramento urbano</span></span>
+  </a>
+  <div class="nav-caption">Menu principal</div>
+  <nav class="side-nav" aria-label="Navegação principal">
+    <a class="" th:href="@{/}"><span class="nav-icon">⌂</span>Início</a>
+    <a class="active" th:href="@{/bairros}"><span class="nav-icon">▦</span>Bairros</a>
+    <a class="" th:href="@{/trechos}"><span class="nav-icon">⌁</span>Trechos</a>
+    <a class="" th:href="@{/leituras}"><span class="nav-icon">≋</span>Leituras</a>
+  </nav>
+  <div class="sidebar-bottom"><strong>Cidade em Dia de Chuva</strong>Gestão de áreas e trechos monitorados.</div>
+</aside>
+  <div class="main-area">
+    <header class="topbar">
+      <div class="breadcrumb">Cidade em Dia <span aria-hidden="true">/</span> <strong>Bairros / Painel</strong></div>
+      <div class="topbar-tag"><span class="online-dot"></span> Sistema de monitoramento</div>
+    </header>
+    <main class="content">
+      <section class="page-heading">
+        <div><p class="eyebrow">MONITORAMENTO / PAINEL DO BAIRRO</p><h1 th:text="${nomeBairro}">Vila Esperança</h1><p class="page-description">Visão mais recente dos trechos cadastrados neste bairro.</p></div>
+        <a class="btn btn-secondary" th:href="@{/bairros}">← Voltar para bairros</a>
+      </section>
+      <section class="panel-stats">
+        <article class="card stat-card"><div class="stat-icon normal">✓</div><div><span class="stat-value" th:text="${qtdStatusNorm}">0</span><span class="stat-label">NORMAL</span></div></article>
+        <article class="card stat-card"><div class="stat-icon atencao">!</div><div><span class="stat-value" th:text="${qtdStatusAten}">0</span><span class="stat-label">ATENÇÃO</span></div></article>
+        <article class="card stat-card"><div class="stat-icon alerta">⚠</div><div><span class="stat-value" th:text="${qtdStatusAler}">0</span><span class="stat-label">ALERTA</span></div></article>
+      </section>
+      <div class="panel-intro"><div><h2>Situação dos trechos</h2><p>Uma linha por trecho, considerando sua leitura mais recente.</p></div><span class="pill pill-neutral" th:text="${#lists.size(listaPainel)} + ' trechos'">0 trechos</span></div>
+      <section class="card">
+        <div class="table-wrap"><table>
+          <thead><tr><th>Logradouro</th><th>Tipo de calçada</th><th>Altitude</th><th>Última lâmina</th><th>Último status</th></tr></thead>
+          <tbody>
+            <tr th:each="item : ${listaPainel}">
+              <td class="primary-cell" th:text="${item.logradouro}">Rua Alta</td>
+              <td th:text="${item.tipoCalcada}">Regular</td>
+              <td class="altitude"><span th:text="${item.altitude}">755</span> m</td>
+              <td><span th:if="${item.ultimaLamina != null}" th:text="${item.ultimaLamina} + ' cm'">5 cm</span><span class="secondary-cell" th:if="${item.ultimaLamina == null}">Sem leitura</span></td>
+              <td>
+                <span class="pill status-normal" th:if="${item.ultimoStatus == 'NORMAL'}">NORMAL</span>
+                <span class="pill status-atencao" th:if="${item.ultimoStatus == 'ATENCAO'}">ATENÇÃO</span>
+                <span class="pill status-alerta" th:if="${item.ultimoStatus == 'ALERTA'}">ALERTA</span>
+                <span class="pill status-empty" th:if="${item.ultimoStatus == null}">Sem leitura</span>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(listaPainel)}"><td colspan="5"><div class="empty-state"><div class="empty-icon">≋</div><strong>Nenhum trecho cadastrado</strong><p>Este bairro ainda não possui trechos para monitoramento.</p></div></td></tr>
+          </tbody>
+        </table></div>
+      </section>
+      <footer class="footer">Cidade em Dia de Chuva · Monitoramento urbano</footer>
+    </main>
+  </div>
+</div>
 <script th:inline="javascript">
-    const mensagem = /*[[${mensagem}]]*/ null;
-    if (mensagem) {
-        alert(mensagem);
-    }
+  const mensagem = /*[[${mensagem}]]*/ null;
+  if (mensagem) { window.alert(mensagem); }
 </script>
 </body>
 </html>

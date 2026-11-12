@@ -1,56 +1,59 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de leitura</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de leitura | Cidade em Dia</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<header>
-    <h1 th:text="${leituraDTO.id == null ? 'Cadastro de leitura' : 'Alteração de leitura'}">Cadastro de leitura</h1>
-    <nav><a th:href="@{/}">Início</a> | <a th:href="@{/leituras}">Voltar para leituras</a></nav>
-</header>
-<main>
-<form th:action="@{/leituras/salvar}" th:object="${leituraDTO}" method="post">
-        <input type="hidden" th:field="*{id}">
-
-        <div class="campo">
-            <label for="trechoId">Trecho:</label>
-            <select id="trechoId" th:field="*{trechoId}" required>
-                <option value="">Selecione um trecho</option>
-                <option th:each="trecho : ${trechos}"
-                        th:value="${trecho.id}"
-                        th:text="${trecho.logradouro + ' (' + trecho.bairroNome + ')'}">
-                </option>
-            </select>
-            <small>Selecione o trecho no qual a leitura foi realizada.</small>
-        </div>
-
-        <div class="campo">
-            <label for="dataHora">Data e hora:</label>
-            <input id="dataHora" name="dataHora" type="datetime-local" step="60" required
-                   th:value="${leituraDTO.dataHora != null ? #temporals.format(leituraDTO.dataHora, 'yyyy-MM-dd''T''HH:mm') : ''}">
-            <small>Obrigatória e não pode estar no futuro. A regra também é verificada no back-end.</small>
-        </div>
-
-        <div class="campo">
-            <label for="laminaCm">Lâmina de água (cm):</label>
-            <input id="laminaCm" type="number" th:field="*{laminaCm}" min="0" max="300" step="1" required>
-            <small>Obrigatória. Valor inteiro entre 0 e 300 centímetros.</small>
-        </div>
-
-        <p>O status será calculado automaticamente pelo sistema após salvar. Não existe campo de status neste formulário.</p>
-        <button type="submit">Salvar</button>
-        <a th:href="@{/leituras}">Cancelar</a>
-    </form>
-</main>
-
+<div class="app-shell">
+<aside class="sidebar">
+  <a class="brand" th:href="@{/}">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.1 20.2a5.3 5.3 0 0 1 .6-10.5 7.3 7.3 0 0 1 13.8 2.1 4.3 4.3 0 0 1-.2 8.5H9.1Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12 23.3-1.1 2.1m6-2.1-1.1 2.1m6-2.1-1.1 2.1" stroke="#75D2C9" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </span>
+    <span><span class="brand-name">Cidade em Dia</span><span class="brand-subtitle">Monitoramento urbano</span></span>
+  </a>
+  <div class="nav-caption">Menu principal</div>
+  <nav class="side-nav" aria-label="Navegação principal">
+    <a class="" th:href="@{/}"><span class="nav-icon">⌂</span>Início</a>
+    <a class="" th:href="@{/bairros}"><span class="nav-icon">▦</span>Bairros</a>
+    <a class="" th:href="@{/trechos}"><span class="nav-icon">⌁</span>Trechos</a>
+    <a class="active" th:href="@{/leituras}"><span class="nav-icon">≋</span>Leituras</a>
+  </nav>
+  <div class="sidebar-bottom"><strong>Cidade em Dia de Chuva</strong>Gestão de áreas e trechos monitorados.</div>
+</aside>
+  <div class="main-area">
+    <header class="topbar">
+      <div class="breadcrumb">Cidade em Dia <span aria-hidden="true">/</span> <strong>Leituras / Formulário</strong></div>
+      <div class="topbar-tag"><span class="online-dot"></span> Sistema de monitoramento</div>
+    </header>
+    <main class="content">
+      <section class="page-heading">
+        <div><p class="eyebrow">MONITORAMENTO / LEITURAS</p><h1 th:text="${leituraDTO.id == null ? 'Registrar leitura' : 'Editar leitura'}">Registrar leitura</h1><p class="page-description">Informe o trecho, a data e o nível de água medido pelo sensor.</p></div>
+        <a class="btn btn-secondary" th:href="@{/leituras}">← Voltar para leituras</a>
+      </section>
+      <section class="card form-card">
+        <div class="card-header"><div><h2 class="card-title">Dados da leitura</h2><p class="card-subtitle">O status será calculado automaticamente pelo sistema.</p></div><span class="pill pill-neutral">Sensor</span></div>
+        <div class="card-body"><form th:action="@{/leituras/salvar}" th:object="${leituraDTO}" method="post">
+          <input type="hidden" th:field="*{id}">
+          <div class="form-grid">
+            <div class="field full"><label for="trechoId">Trecho <span class="required">*</span></label><select class="select" id="trechoId" th:field="*{trechoId}" required><option value="">Selecione um trecho</option><option th:each="trecho : ${trechos}" th:value="${trecho.id}" th:text="${trecho.logradouro + ' (' + trecho.bairroNome + ')'}"></option></select><span class="field-help">Selecione o trecho em que a leitura foi realizada.</span></div>
+            <div class="field"><label for="dataHora">Data e hora <span class="required">*</span></label><input class="input" id="dataHora" name="dataHora" type="datetime-local" step="60" required th:value="${leituraDTO.dataHora != null ? #temporals.format(leituraDTO.dataHora, 'yyyy-MM-dd''T''HH:mm') : ''}"><span class="field-help">Obrigatória. Não pode estar no futuro.</span></div>
+            <div class="field"><label for="laminaCm">Lâmina de água (cm) <span class="required">*</span></label><input class="input" id="laminaCm" type="number" th:field="*{laminaCm}" min="0" max="300" step="1" placeholder="Ex.: 12" required><span class="field-help">Valor inteiro entre 0 e 300 centímetros.</span></div>
+          </div>
+          <div class="form-note"><span aria-hidden="true">ⓘ</span><span><strong>Status automático.</strong> O sistema calculará NORMAL, ATENCAO ou ALERTA conforme a lâmina informada. Esse campo não é preenchido pelo usuário.</span></div>
+          <div class="form-actions"><button class="btn btn-primary" type="submit">Salvar leitura</button><a class="btn btn-secondary" th:href="@{/leituras}">Cancelar</a></div>
+        </form></div>
+      </section>
+      <footer class="footer">Cidade em Dia de Chuva · Monitoramento urbano</footer>
+    </main>
+  </div>
+</div>
 <script th:inline="javascript">
-    const mensagem = /*[[${mensagem}]]*/ null;
-    if (mensagem) {
-        alert(mensagem);
-    }
+  const mensagem = /*[[${mensagem}]]*/ null;
+  if (mensagem) { window.alert(mensagem); }
 </script>
 </body>
 </html>

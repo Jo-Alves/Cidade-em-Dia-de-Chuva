@@ -1,65 +1,59 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de trecho</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de trecho | Cidade em Dia</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<header>
-    <h1 th:text="${trechoDTO.id == null ? 'Cadastro de trecho' : 'Alteração de trecho'}">Cadastro de trecho</h1>
-    <nav><a th:href="@{/}">Início</a> | <a th:href="@{/trechos}">Voltar para trechos</a></nav>
-</header>
-<main>
-<form th:action="@{/trechos/salvar}" th:object="${trechoDTO}" method="post">
-        <input type="hidden" th:field="*{id}">
-
-        <div class="campo">
-            <label for="logradouro">Logradouro:</label>
-            <input id="logradouro" type="text" th:field="*{logradouro}" maxlength="120" required>
-            <small>Obrigatório. Até 120 caracteres; não deixe o campo apenas com espaços.</small>
-        </div>
-
-        <div class="campo">
-            <label for="bairroId">Bairro:</label>
-            <select id="bairroId" th:field="*{bairroId}" required>
-                <option value="">Selecione um bairro</option>
-                <option th:each="bairro : ${bairros}"
-                        th:value="${bairro.id}"
-                        th:text="${bairro.nome}">
-                </option>
-            </select>
-            <small>Selecione o bairro ao qual o trecho pertence.</small>
-        </div>
-
-        <div class="campo">
-            <label for="tipoCalcada">Tipo de calçada:</label>
-            <select id="tipoCalcada" th:field="*{tipoCalcada}" required>
-                <option value="">Selecione um tipo</option>
-                <option value="Regular">Regular</option>
-                <option value="Irregular">Irregular</option>
-                <option value="Escadaria">Escadaria</option>
-                <option value="Sem iluminação">Sem iluminação</option>
-            </select>
-        </div>
-
-        <div class="campo">
-            <label for="altitude">Altitude (metros):</label>
-            <input id="altitude" type="number" th:field="*{altitude}" min="0" max="2000" step="1" required>
-            <small>Obrigatória. Valor inteiro entre 0 e 2000 metros.</small>
-        </div>
-
-        <button type="submit">Salvar</button>
-        <a th:href="@{/trechos}">Cancelar</a>
-    </form>
-</main>
-
+<div class="app-shell">
+<aside class="sidebar">
+  <a class="brand" th:href="@{/}">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.1 20.2a5.3 5.3 0 0 1 .6-10.5 7.3 7.3 0 0 1 13.8 2.1 4.3 4.3 0 0 1-.2 8.5H9.1Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12 23.3-1.1 2.1m6-2.1-1.1 2.1m6-2.1-1.1 2.1" stroke="#75D2C9" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </span>
+    <span><span class="brand-name">Cidade em Dia</span><span class="brand-subtitle">Monitoramento urbano</span></span>
+  </a>
+  <div class="nav-caption">Menu principal</div>
+  <nav class="side-nav" aria-label="Navegação principal">
+    <a class="" th:href="@{/}"><span class="nav-icon">⌂</span>Início</a>
+    <a class="" th:href="@{/bairros}"><span class="nav-icon">▦</span>Bairros</a>
+    <a class="active" th:href="@{/trechos}"><span class="nav-icon">⌁</span>Trechos</a>
+    <a class="" th:href="@{/leituras}"><span class="nav-icon">≋</span>Leituras</a>
+  </nav>
+  <div class="sidebar-bottom"><strong>Cidade em Dia de Chuva</strong>Gestão de áreas e trechos monitorados.</div>
+</aside>
+  <div class="main-area">
+    <header class="topbar">
+      <div class="breadcrumb">Cidade em Dia <span aria-hidden="true">/</span> <strong>Trechos / Formulário</strong></div>
+      <div class="topbar-tag"><span class="online-dot"></span> Sistema de monitoramento</div>
+    </header>
+    <main class="content">
+      <section class="page-heading">
+        <div><p class="eyebrow">CADASTROS / TRECHOS</p><h1 th:text="${trechoDTO.id == null ? 'Novo trecho' : 'Editar trecho'}">Novo trecho</h1><p class="page-description">Informe o logradouro, o bairro e as características da calçada.</p></div>
+        <a class="btn btn-secondary" th:href="@{/trechos}">← Voltar para trechos</a>
+      </section>
+      <section class="card form-card">
+        <div class="card-header"><div><h2 class="card-title">Dados do trecho</h2><p class="card-subtitle">Os campos marcados com * são obrigatórios.</p></div><span class="pill pill-neutral">Trecho</span></div>
+        <div class="card-body"><form th:action="@{/trechos/salvar}" th:object="${trechoDTO}" method="post">
+          <input type="hidden" th:field="*{id}">
+          <div class="form-grid">
+            <div class="field full"><label for="logradouro">Logradouro <span class="required">*</span></label><input class="input" id="logradouro" type="text" th:field="*{logradouro}" maxlength="120" placeholder="Ex.: Rua das Palmeiras" required><span class="field-help">Obrigatório. Até 120 caracteres.</span></div>
+            <div class="field"><label for="bairroId">Bairro <span class="required">*</span></label><select class="select" id="bairroId" th:field="*{bairroId}" required><option value="">Selecione um bairro</option><option th:each="bairro : ${bairros}" th:value="${bairro.id}" th:text="${bairro.nome}"></option></select></div>
+            <div class="field"><label for="tipoCalcada">Tipo de calçada <span class="required">*</span></label><select class="select" id="tipoCalcada" th:field="*{tipoCalcada}" required><option value="">Selecione um tipo</option><option value="Regular">Regular</option><option value="Irregular">Irregular</option><option value="Escadaria">Escadaria</option><option value="Sem iluminação">Sem iluminação</option></select></div>
+            <div class="field"><label for="altitude">Altitude (metros) <span class="required">*</span></label><input class="input" id="altitude" type="number" th:field="*{altitude}" min="0" max="2000" step="1" placeholder="Ex.: 740" required><span class="field-help">Valor inteiro entre 0 e 2000 metros.</span></div>
+          </div>
+          <div class="form-actions"><button class="btn btn-primary" type="submit">Salvar trecho</button><a class="btn btn-secondary" th:href="@{/trechos}">Cancelar</a></div>
+        </form></div>
+      </section>
+      <footer class="footer">Cidade em Dia de Chuva · Monitoramento urbano</footer>
+    </main>
+  </div>
+</div>
 <script th:inline="javascript">
-    const mensagem = /*[[${mensagem}]]*/ null;
-    if (mensagem) {
-        alert(mensagem);
-    }
+  const mensagem = /*[[${mensagem}]]*/ null;
+  if (mensagem) { window.alert(mensagem); }
 </script>
 </body>
 </html>

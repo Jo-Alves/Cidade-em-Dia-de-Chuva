@@ -1,61 +1,73 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bairros cadastrados</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bairros | Cidade em Dia</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<header>
-    <h1>Bairros cadastrados</h1>
-    <nav>
-        <a th:href="@{/}">Início</a> |
-        <a th:href="@{/trechos}">Trechos</a> |
-        <a th:href="@{/leituras}">Leituras</a>
-    </nav>
-</header>
-<main>
-<p><a class="link-acao" th:href="@{/bairros/novo}">Cadastrar novo bairro</a></p>
-
-    <table>
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Zona</th>
-            <th>Possui piscinão?</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="bairro : ${bairros}">
-            <td th:text="${bairro.nome}">Nome do bairro</td>
-            <td th:text="${bairro.zona}">Zona</td>
-            <td>
-                <span th:if="${bairro.possuiPiscinao == null}">Não informado</span>
-                <span th:if="${bairro.possuiPiscinao == true}">Sim</span>
-                <span th:if="${bairro.possuiPiscinao == false}">Não</span>
-            </td>
-            <td class="acoes">
-                <a th:href="@{/bairros/{id}/editar(id=${bairro.id})}">Editar</a>
-                <a th:href="@{/bairros/{id}/painel(id=${bairro.id})}">Painel</a>
-                <form th:action="@{/bairros/{id}/excluir(id=${bairro.id})}" method="post" class="form-inline" onsubmit="return confirm('Deseja excluir este bairro?')">
-                    <button type="submit" class="botao-excluir">Excluir</button>
-                </form>
-            </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(bairros)}">
-            <td colspan="4">Nenhum bairro cadastrado.</td>
-        </tr>
-        </tbody>
-    </table>
-</main>
-
+<div class="app-shell">
+<aside class="sidebar">
+  <a class="brand" th:href="@{/}">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.1 20.2a5.3 5.3 0 0 1 .6-10.5 7.3 7.3 0 0 1 13.8 2.1 4.3 4.3 0 0 1-.2 8.5H9.1Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m12 23.3-1.1 2.1m6-2.1-1.1 2.1m6-2.1-1.1 2.1" stroke="#75D2C9" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </span>
+    <span><span class="brand-name">Cidade em Dia</span><span class="brand-subtitle">Monitoramento urbano</span></span>
+  </a>
+  <div class="nav-caption">Menu principal</div>
+  <nav class="side-nav" aria-label="Navegação principal">
+    <a class="" th:href="@{/}"><span class="nav-icon">⌂</span>Início</a>
+    <a class="active" th:href="@{/bairros}"><span class="nav-icon">▦</span>Bairros</a>
+    <a class="" th:href="@{/trechos}"><span class="nav-icon">⌁</span>Trechos</a>
+    <a class="" th:href="@{/leituras}"><span class="nav-icon">≋</span>Leituras</a>
+  </nav>
+  <div class="sidebar-bottom"><strong>Cidade em Dia de Chuva</strong>Gestão de áreas e trechos monitorados.</div>
+</aside>
+  <div class="main-area">
+    <header class="topbar">
+      <div class="breadcrumb">Cidade em Dia <span aria-hidden="true">/</span> <strong>Bairros</strong></div>
+      <div class="topbar-tag"><span class="online-dot"></span> Sistema de monitoramento</div>
+    </header>
+    <main class="content">
+      <section class="page-heading">
+        <div><p class="eyebrow">CADASTROS</p><h1>Bairros</h1><p class="page-description">Gerencie os bairros e consulte a situação dos trechos de cada região.</p></div>
+        <a class="btn btn-primary" th:href="@{/bairros/novo}"><span class="btn-icon">＋</span>Novo bairro</a>
+      </section>
+      <section class="card">
+        <div class="card-header"><div><h2 class="card-title">Bairros cadastrados</h2><p class="card-subtitle">Lista organizada pelo nome do bairro.</p></div><span class="pill pill-neutral" th:text="${#lists.size(bairros)} + ' registros'">0 registros</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nome do bairro</th><th>Zona</th><th>Piscinão</th><th>Ações</th></tr></thead>
+            <tbody>
+              <tr th:each="bairro : ${bairros}">
+                <td><span class="primary-cell" th:text="${bairro.nome}">Vila Esperança</span></td>
+                <td th:text="${bairro.zona}">Leste</td>
+                <td>
+                  <span class="pill pill-yes" th:if="${bairro.possuiPiscinao == true}">Sim</span>
+                  <span class="pill pill-no" th:if="${bairro.possuiPiscinao == false}">Não</span>
+                  <span class="pill pill-neutral" th:if="${bairro.possuiPiscinao == null}">Não informado</span>
+                </td>
+                <td><div class="actions">
+                  <a class="btn btn-secondary btn-small" th:href="@{/bairros/{id}/editar(id=${bairro.id})}">Editar</a>
+                  <a class="btn btn-teal btn-small" th:href="@{/bairros/{id}/painel(id=${bairro.id})}">Painel</a>
+                  <form class="inline-form" th:action="@{/bairros/{id}/excluir(id=${bairro.id})}" method="post" onsubmit="return confirm('Deseja realmente excluir este bairro?')">
+                    <button class="btn btn-danger btn-small" type="submit">Excluir</button>
+                  </form>
+                </div></td>
+              </tr>
+              <tr th:if="${#lists.isEmpty(bairros)}"><td colspan="4"><div class="empty-state"><div class="empty-icon">▦</div><strong>Nenhum bairro cadastrado</strong><p>Comece cadastrando o primeiro bairro monitorado.</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <footer class="footer">Cidade em Dia de Chuva · Monitoramento urbano</footer>
+    </main>
+  </div>
+</div>
 <script th:inline="javascript">
-    const mensagem = /*[[${mensagem}]]*/ null;
-    if (mensagem) {
-        alert(mensagem);
-    }
+  const mensagem = /*[[${mensagem}]]*/ null;
+  if (mensagem) { window.alert(mensagem); }
 </script>
 </body>
 </html>
